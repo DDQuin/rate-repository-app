@@ -6,6 +6,7 @@ const theme = {
       backgroundBar: 'black',
       mainBackground: '#e1e4e8',
       extra: 'gray',
+      error: '#d73a4a',
     },
     fontSizes: {
       body: 14,
