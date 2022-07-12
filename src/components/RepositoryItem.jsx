@@ -30,7 +30,8 @@ const RepositoryItem = ({item}) => {
         languageBar: {
             backgroundColor: theme.colors.primary,
             alignSelf: 'flex-start',
-            borderRadius: 10,
+            borderRadius: 5,
+            padding: 5,
         },
         bottomBar: {
             marginTop: 4,
@@ -52,7 +53,9 @@ const RepositoryItem = ({item}) => {
                 <View style={styles.topBar2}>
                     <Text fontWeight="bold">{item.fullName}</Text>
                     <Text color="extra">{item.description}</Text>
-                    <Text color="textSecondary" style={styles.languageBar}>{item.language}</Text>
+                    <View style={styles.languageBar}>
+                    <Text color="textSecondary" >{item.language}</Text>
+                    </View>
                  </View>
             </View>
             <View style={styles.bottomBar}>
