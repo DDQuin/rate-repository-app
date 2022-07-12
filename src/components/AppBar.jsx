@@ -21,7 +21,7 @@ const AppBar = () => {
 const AppBarTab = ({text}) => {
     return (
       <Pressable>
-      <Text fontWeight="bold" fontSize="subheading" color="textSecondary">
+      <Text fontWeight="bold" fontSize="subheading" color="textSecondary" >
           {text}
         </Text>
       </Pressable>
