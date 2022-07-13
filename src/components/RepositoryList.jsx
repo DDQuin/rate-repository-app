@@ -29,8 +29,14 @@ export const RepositoryListContainer = ({repositories}) => {
 
 const RepositoryList = () => {
   const { data } = useRepositories();
-
+  if (data && data.repositories) {
   return <RepositoryListContainer repositories={data.repositories} />;
+  }
+  return (
+    <View>
+      
+    </View>
+  )
 };
 
 export default RepositoryList;
