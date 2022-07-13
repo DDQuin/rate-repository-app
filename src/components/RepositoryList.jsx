@@ -13,9 +13,8 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
   const { data } = useRepositories();
-
   // Get the nodes from the edges array
-  const repositoryNodes = data.repositories
+  const repositoryNodes = data
     ? data.repositories.edges.map(edge => edge.node)
     : [];
   return (
