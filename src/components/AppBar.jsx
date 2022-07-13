@@ -32,7 +32,7 @@ const AppBar = () => {
   <SafeAreaView style={styles.container} opacity={0.9}>
     <ScrollView horizontal style={styles.hori} contentContainerStyle={styles.contentContainer}>
     <AppBarTab text="Repositories " url={"/"}/>
-    {data.me ? <AppBarSignOut/> : <AppBarTab text="Sign in " url={"/signIn"}/>} 
+    {data && data.me ? <AppBarSignOut/> : <AppBarTab text="Sign in " url={"/signIn"}/>} 
     </ScrollView>
         
   </SafeAreaView>
