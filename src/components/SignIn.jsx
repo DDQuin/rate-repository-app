@@ -5,6 +5,8 @@ import FormikTextInput from './FormikTextInput';
 import theme from '../theme';
 import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
+import {useNavigate} from 'react-router-native'
+import { useState } from 'react';
 
 
 const validationSchema = yup.object().shape({
@@ -21,7 +23,7 @@ const initialValues = {
     password: '',
   };
 
-  const SignInForm = ({ onSubmit }) => {
+  const SignInForm = ({ onSubmit, isWrong }) => {
     const styles = {
         container: {
             backgroundColor: "white",
@@ -45,6 +47,7 @@ const initialValues = {
       <View style={styles.container}>
         <FormikTextInput name="username" placeholder="Username"  />
         <FormikTextInput name="password" placeholder="Password"  secureTextEntry={true}  />
+        {isWrong && <Text color="error">Wrong details</Text>}
         <Pressable onPress={onSubmit} style={styles.signButton}>
           <Text fontWeight ='bold' style={styles.buttonText}>Sign in</Text>
         </Pressable>
@@ -53,24 +56,27 @@ const initialValues = {
   };
 
 const SignIn = () => {
+  const navigate = useNavigate()
   const [signIn] = useSignIn();
-  
+  const [isWrong, setWrong] = useState(false)
   const onSubmit = async (values) => {
     const { username, password } = values;
     try {
     // call the mutate function here with the right arguments
       const {data} = await signIn({ username, password });
-     console.log(data);
+      navigate('/')
     } catch (e) {
+      setWrong(true)
       console.log(e);
     }
   };
     return (
+      
         <Formik initialValues={initialValues}
          onSubmit={onSubmit}
          validationSchema={validationSchema}
          >
-          {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+          {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} isWrong={isWrong} />}
         </Formik>
       );
 };

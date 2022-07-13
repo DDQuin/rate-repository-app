@@ -1,8 +1,12 @@
-import { SafeAreaView, StyleSheet,ScrollView} from 'react-native';
+import { SafeAreaView, StyleSheet,ScrollView, Pressable} from 'react-native';
 import Constants from 'expo-constants';
 import theme from '../theme';
 import Text from "./Text"
 import { Link } from "react-router-native";
+import { USER_SIGNED } from '../graphql/queries';
+import useAuthStorage from '../hooks/useAuthStorage';
+import { useQuery } from '@apollo/client/react';
+import { useApolloClient } from '@apollo/client/react';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,11 +26,13 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  
+  const { data, loading } = useQuery(USER_SIGNED)
   return( 
   <SafeAreaView style={styles.container} opacity={0.9}>
     <ScrollView horizontal style={styles.hori} contentContainerStyle={styles.contentContainer}>
-    <AppBarTab text="Repositories " url={"/"}/> 
-    <AppBarTab text="Sign in " url={"/signIn"}/>
+    <AppBarTab text="Repositories " url={"/"}/>
+    {data.me ? <AppBarSignOut/> : <AppBarTab text="Sign in " url={"/signIn"}/>} 
     </ScrollView>
         
   </SafeAreaView>
@@ -34,6 +40,7 @@ const AppBar = () => {
 };
 
 const AppBarTab = ({text, url}) => {
+  
     return (
         <Link to={`${url}`}>
         <Text fontWeight="bold" fontSize="subheading" color="textSecondary" >
@@ -41,6 +48,22 @@ const AppBarTab = ({text, url}) => {
         </Text>
       </Link>
       
+    )
+  };
+
+  const AppBarSignOut = () => {
+    const authStorage = useAuthStorage();
+    const client = useApolloClient()
+      const onLogout = async () => {
+      await authStorage.removeAccessToken()
+      client.resetStore()
+    }
+    return (
+      <Pressable onPress={onLogout}>
+        <Text fontWeight="bold" fontSize="subheading" color="textSecondary" >
+          Sign out
+        </Text>
+      </Pressable>
     )
   };
 

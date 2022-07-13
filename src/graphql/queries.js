@@ -30,3 +30,12 @@ query {
     }
   }
 `;
+
+export const USER_SIGNED = gql `
+query {
+    me {
+      id
+      username
+    }
+  }
+`
