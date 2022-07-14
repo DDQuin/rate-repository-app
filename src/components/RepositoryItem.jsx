@@ -1,9 +1,10 @@
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Pressable } from 'react-native';
 import theme from '../theme';
 import Text from './Text';
+import * as Linking from 'expo-linking';
 
 
-const RepositoryItem = ({item}) => {
+const RepositoryItem = ({item, showUrl}) => {
     const styles = StyleSheet.create({
         background: {
             backgroundColor: 'white',
@@ -41,7 +42,14 @@ const RepositoryItem = ({item}) => {
         bottomItem: {
             flexDirection: 'column',
             alignItems: 'center',
-        }
+        },
+        urlButton: {
+            marginTop: 10,
+            backgroundColor: theme.colors.primary,
+            alignItems: "center",
+            borderRadius: 5,
+            padding: 10,
+        },
         
         
 
@@ -80,6 +88,14 @@ const RepositoryItem = ({item}) => {
                 </View>
                 
             </View>
+
+            {showUrl && 
+            <Pressable onPress={() => Linking.openURL(item.url)}>
+            <View style={styles.urlButton}>
+                    <Text color="textSecondary" fontWeight="bold" >Open in GitHub</Text>
+            </View>
+            </Pressable>
+            }
                 
         </View>
     )
