@@ -11,7 +11,7 @@ import theme from "../theme"
 
 const RespoitoryView = () => {
     const id = useParams().id
-    const {loading, data} = useQuery(REPO_BY_ID, {variables: { id: id }},)
+    const {loading, data} = useQuery(REPO_BY_ID, {variables: { id: id }, fetchPolicy: 'cache-and-network',},)
 
 
     if (!loading && data && data.repository) {
@@ -82,7 +82,6 @@ const ReviewItem = ({review}) => {
       const day = dateReal.getDay()
       const month = dateReal.getMonth() + 1
       const year = dateReal.getYear()
-      console.log(year)
       const date = `${day}.${month}.${year}`
     return (
         <View style={[styles.background, styles.flexContainer]} >

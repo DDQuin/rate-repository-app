@@ -7,6 +7,7 @@ import { USER_SIGNED } from '../graphql/queries';
 import useAuthStorage from '../hooks/useAuthStorage';
 import { useQuery } from '@apollo/client/react';
 import { useApolloClient } from '@apollo/client/react';
+import { View } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
   },
   hori: {
     flexDirection: 'row',
-  },
+  }, 
   contentContainer: {
     margin: 30,
    justifyContent: 'space-between',
@@ -25,14 +26,29 @@ const styles = StyleSheet.create({
   
 });
 
+const Extra = ({data}) => {
+  if (data && data.me) {
+    return (
+      <>
+      <AppBarTab text="Review  " url={"/createReview"}/> 
+      <AppBarSignOut/>
+      </>
+    )
+  }
+  return (
+    <AppBarTab text="Sign in " url={"/signIn"}/>
+  )
+}
+
 const AppBar = () => {
+  
   
   const { data, loading } = useQuery(USER_SIGNED)
   return( 
   <SafeAreaView style={styles.container} opacity={0.9}>
     <ScrollView horizontal style={styles.hori} contentContainerStyle={styles.contentContainer}>
     <AppBarTab text="Repositories " url={"/"}/>
-    {data && data.me ? <AppBarSignOut/> : <AppBarTab text="Sign in " url={"/signIn"}/>} 
+    <Extra data={data}/>
     </ScrollView>
         
   </SafeAreaView>
