@@ -5,7 +5,8 @@ import { Pressable } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import { useState } from 'react';
 import {Picker} from '@react-native-picker/picker';
-
+import { Searchbar } from 'react-native-paper';
+import { useDebounce } from 'use-debounce';
 
 const styles = StyleSheet.create({
   separator: {
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({repositories, setOrderBy, setOrderDirection, selectedPrinciple, setSelectedPrinciple}) => {
+export const RepositoryListContainer = ({repositories, setOrderBy, setOrderDirection, selectedPrinciple, setSelectedPrinciple, search, setSearch}) => {
   const navigate = useNavigate()
   // Get the nodes from the edges array
   
@@ -32,7 +33,8 @@ export const RepositoryListContainer = ({repositories, setOrderBy, setOrderDirec
         <RepositoryItem item={item} showUrl={false}/>
         </Pressable>
       )}
-      ListHeaderComponent={<MenuComponent setOrderBy={setOrderBy} setOrderDirection={setOrderDirection} selectedPrinciple={selectedPrinciple} setSelectedPrinciple={setSelectedPrinciple}/>}
+      ListHeaderComponent={<MenuComponent setOrderBy={setOrderBy} setOrderDirection={setOrderDirection} 
+      selectedPrinciple={selectedPrinciple} setSelectedPrinciple={setSelectedPrinciple} search={search} setSearch={setSearch}/>}
     />
   );
 };
@@ -40,10 +42,13 @@ export const RepositoryListContainer = ({repositories, setOrderBy, setOrderDirec
 const RepositoryList = () => {
   const [orderBy, setOrderBy] = useState("RATING_AVERAGE")
   const [orderDirection, setOrderDirection] = useState("DESC")
+  const [search, setSearch] = useState("")
+  const [value] = useDebounce(search, 500);
   const [selectedPrinciple, setSelectedPrinciple] = useState("highest_repos");
-  const { data } = useRepositories(orderBy, orderDirection);
+  const { data } = useRepositories(orderBy, orderDirection, value);
   if (data && data.repositories) {
-  return <RepositoryListContainer repositories={data.repositories} setOrderBy={setOrderBy} setOrderDirection={setOrderDirection} selectedPrinciple={selectedPrinciple} setSelectedPrinciple={setSelectedPrinciple} />;
+  return <RepositoryListContainer repositories={data.repositories} setOrderBy={setOrderBy} setOrderDirection={setOrderDirection} selectedPrinciple={selectedPrinciple} 
+  setSelectedPrinciple={setSelectedPrinciple} search={search} setSearch={setSearch}/>;
   }
   return (
     <View>
@@ -52,9 +57,14 @@ const RepositoryList = () => {
   )
 };
 
-const MenuComponent = ({setOrderBy, setOrderDirection, selectedPrinciple, setSelectedPrinciple}) => {
+const MenuComponent = ({setOrderBy, setOrderDirection, selectedPrinciple, setSelectedPrinciple, search, setSearch}) => {
   return (
     <View style={{zIndex: 100}}>
+      <Searchbar
+      placeholder="Search"
+      onChangeText={(q) => setSearch(q) }
+      value={search}
+    />
     <Picker
     selectedValue={selectedPrinciple}
     onValueChange={(itemValue, itemIndex) => {
