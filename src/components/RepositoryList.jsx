@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({repositories, setOrderBy, setOrderDirection, selectedPrinciple, setSelectedPrinciple, search, setSearch}) => {
+export const RepositoryListContainer = ({repositories, setOrderBy, setOrderDirection, selectedPrinciple, setSelectedPrinciple, search, setSearch, onEndReach,}) => {
   const navigate = useNavigate()
   // Get the nodes from the edges array
   
@@ -33,6 +33,8 @@ export const RepositoryListContainer = ({repositories, setOrderBy, setOrderDirec
         <RepositoryItem item={item} showUrl={false}/>
         </Pressable>
       )}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
       ListHeaderComponent={<MenuComponent setOrderBy={setOrderBy} setOrderDirection={setOrderDirection} 
       selectedPrinciple={selectedPrinciple} setSelectedPrinciple={setSelectedPrinciple} search={search} setSearch={setSearch}/>}
     />
@@ -45,10 +47,15 @@ const RepositoryList = () => {
   const [search, setSearch] = useState("")
   const [value] = useDebounce(search, 500);
   const [selectedPrinciple, setSelectedPrinciple] = useState("highest_repos");
-  const { data } = useRepositories(orderBy, orderDirection, value);
-  if (data && data.repositories) {
-  return <RepositoryListContainer repositories={data.repositories} setOrderBy={setOrderBy} setOrderDirection={setOrderDirection} selectedPrinciple={selectedPrinciple} 
-  setSelectedPrinciple={setSelectedPrinciple} search={search} setSearch={setSearch}/>;
+  const { repositories, fetchMore } = useRepositories(orderBy, orderDirection, value, 8);
+  const onEndReach = () => {
+    console.log("end")
+    fetchMore()
+  };
+
+  if (repositories) {
+  return <RepositoryListContainer repositories={repositories} setOrderBy={setOrderBy} setOrderDirection={setOrderDirection} selectedPrinciple={selectedPrinciple} 
+  setSelectedPrinciple={setSelectedPrinciple} search={search} setSearch={setSearch} onEndReach={onEndReach}/>;
   }
   return (
     <View>
