@@ -56,6 +56,20 @@ query repoById ($id: ID!) {
     description
     language    
     ownerAvatarUrl
+    reviews {
+      edges {
+        node {
+          id
+          text
+          rating
+          createdAt
+          user {
+            id
+            username
+          }
+        }
+      }
+    }
   }
 }
 `
