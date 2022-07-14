@@ -31,6 +31,7 @@ const Extra = ({data}) => {
     return (
       <>
       <AppBarTab text="Review  " url={"/createReview"}/> 
+      <AppBarTab text="My Reviews  " url={"/reviews"}/> 
       <AppBarSignOut/>
       </>
     )

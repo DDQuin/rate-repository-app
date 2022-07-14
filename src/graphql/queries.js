@@ -41,6 +41,31 @@ query {
   }
 `
 
+export const USER_REVIEWS = gql`
+query {
+  me {
+    id
+    username
+    reviews {
+      edges {
+        node {
+          id
+          text
+          rating
+          createdAt
+          user {
+            id
+            username
+          }
+        }
+      }
+    }
+  }
+}
+`
+
+
+
 export const REPO_BY_ID = gql`
 query repoById ($id: ID!, $first: Int, $after: String) {
   repository(id: $id) {

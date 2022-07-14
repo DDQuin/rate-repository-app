@@ -35,7 +35,7 @@ const RespoitoryView = () => {
 
 }
 
-const ReviewItem = ({review}) => {
+export const ReviewItem = ({review}) => {
 
     const styles = StyleSheet.create({
         background: {
