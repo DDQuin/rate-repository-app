@@ -8,7 +8,8 @@ const RepositoryItem = ({item, showUrl}) => {
     const styles = StyleSheet.create({
         background: {
             backgroundColor: 'white',
-            padding: 10
+            padding: 10,
+            
         },
         flexContainer: {
             flexDirection: 'column',

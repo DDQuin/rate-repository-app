@@ -1,34 +1,34 @@
 import { gql } from '@apollo/client';
 
 export const GET_REPOSITORIES = gql`
-query {
-    repositories {
-      totalCount
-      edges {
-        node {
-          id
-          name
-          ownerName
-          createdAt
-          fullName
-          reviewCount
-          ratingAverage
-          forksCount
-          stargazersCount
-          description
-          language
-          ownerAvatarUrl
-        }
-        cursor
+query($orderDirection: OrderDirection, $orderBy: AllRepositoriesOrderBy) {
+  repositories(orderDirection: $orderDirection, orderBy: $orderBy) {
+    totalCount
+    edges {
+      node {
+        id
+        name
+        ownerName
+        createdAt
+        fullName
+        reviewCount
+        ratingAverage
+        forksCount
+        stargazersCount
+        description
+        language
+        ownerAvatarUrl
       }
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
     }
   }
+}
 `;
 
 export const USER_SIGNED = gql `
