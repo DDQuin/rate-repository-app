@@ -36,7 +36,10 @@ const Extra = ({data}) => {
     )
   }
   return (
+    <>
     <AppBarTab text="Sign in " url={"/signIn"}/>
+    <AppBarTab text="Sign up " url={"/signUp"}/>
+    </>
   )
 }
 
