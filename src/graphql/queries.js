@@ -53,6 +53,7 @@ query {
           text
           rating
           createdAt
+          repositoryId
           user {
             id
             username
@@ -88,6 +89,7 @@ query repoById ($id: ID!, $first: Int, $after: String) {
           id
           text
           rating
+          repositoryId
           createdAt
           user {
             id

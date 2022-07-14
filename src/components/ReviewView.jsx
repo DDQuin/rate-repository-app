@@ -8,8 +8,11 @@ import { ReviewItem } from "./RepositoryView"
 
 const ReviewView = () => {
 
-    const {data} = useQuery(USER_REVIEWS, {fetchPolicy: 'cache-and-network'})
-    console.log(data)
+    const {data, refetch } = useQuery(USER_REVIEWS, {fetchPolicy: 'cache-and-network'})
+
+    const fetchAgain = () => {
+        refetch()
+    }
 
     if (data) {
         const reviewNodes = data.me.reviews
@@ -18,7 +21,7 @@ const ReviewView = () => {
         return (
                     <FlatList
             data={reviewNodes}
-            renderItem={({ item }) => <ReviewItem review={item} />}
+            renderItem={({ item }) => <ReviewItem review={item} showActions={true} fetchAgain={fetchAgain}/>}
             keyExtractor={({ id }) => id}
             />  
             )
